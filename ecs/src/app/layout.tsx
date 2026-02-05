@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Shiny Velvet Commerce",
-  description: "High-performance B2B e-commerce & POS demo.",
+  title: "E-commerce / POS demo",
+  description: "High-performance B2B e-commerce & POS demo by Handrian.",
 };
 
 export default function RootLayout({
