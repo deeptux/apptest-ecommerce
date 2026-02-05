@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react"; // Added useEffect
+import { useState, useEffect, Suspense } from "react"; // Added useEffect
 import { useSearchParams } from "next/navigation"; // Added useSearchParams
 import { useOrderStore } from "@/store/order-store";
 import { useCartStore } from "@/store/cart-store";
@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-export default function SettingsPage() {
+function SettingsContent() {
   const searchParams = useSearchParams();
   const openParam = searchParams.get('open');
 
@@ -255,27 +255,27 @@ export default function SettingsPage() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
           <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden">
             <div className="absolute top-4 right-4 z-10">
-               {/* Note: onClose, we might want to clear the URL param so it doesn't reopen on refresh */}
-               <button 
-                 onClick={() => setShowDev(false)} 
-                 className="p-2 bg-white/80 backdrop-blur shadow-sm hover:bg-white rounded-full text-slate-400"
-               >
-                <X className="h-5 w-5"/>
-               </button>
+              {/* Note: onClose, we might want to clear the URL param so it doesn't reopen on refresh */}
+              <button
+                onClick={() => setShowDev(false)}
+                className="p-2 bg-white/80 backdrop-blur shadow-sm hover:bg-white rounded-full text-slate-400"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
-            
+
             <div className="h-32 bg-gradient-to-br from-red-900 via-rose-950 to-black w-full" />
-            
+
             <div className="px-8 pb-8 -mt-12 relative">
               <div className="h-24 w-24 rounded-2xl bg-white p-1 shadow-xl mb-4 overflow-hidden border border-slate-100">
                 <div className="w-full h-full bg-slate-100 rounded-xl flex items-center justify-center">
-                   <Image 
-                     src="/resources/images/dev.jpg" 
-                     alt="Engr. Handrian" 
-                     width={96} 
-                     height={96} 
-                     className="object-cover" 
-                   />
+                  <Image
+                    src="/resources/images/dev.jpg"
+                    alt="Engr. Handrian"
+                    width={96}
+                    height={96}
+                    className="object-cover"
+                  />
                 </div>
               </div>
 
@@ -286,12 +286,12 @@ export default function SettingsPage() {
 
               <div className="mt-6 space-y-4 text-sm text-slate-600 leading-relaxed">
                 <p>
-                  Mhel Handrian is a <strong>Research & Development Systems Engineer</strong> with over a decade of experience in industrial applications. 
-                  He has spearheaded software engineering projects for international firms like <em>CITCO International</em> and <em>Alliant Insurance Services</em>, 
+                  Mhel Handrian is a <strong>Research & Development Systems Engineer</strong> with over a decade of experience in industrial applications.
+                  He has spearheaded software engineering projects for international firms like <em>CITCO International</em> and <em>Alliant Insurance Services</em>,
                   specializing in AI integration (OCR/NLU) and high-performance web stacks.
                 </p>
                 <p>
-                  As an alumnus of <strong>STI College</strong> and a seasoned professional in both local and overseas tech markets, 
+                  As an alumnus of <strong>STI College</strong> and a seasoned professional in both local and overseas tech markets,
                   he currently focuses on empowering SMEs through bespoke digital solutions and automated POS systems like <em>Ramen Heaven</em>.
                 </p>
               </div>
@@ -308,8 +308,17 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
-    
+
     </section>
 
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    // This allows Next.js to skip pre-rendering the search param logic
+    <Suspense fallback={<div className="p-8 text-slate-500">Loading Settings...</div>}>
+      <SettingsContent />
+    </Suspense>
   );
 }
