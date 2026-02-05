@@ -288,7 +288,7 @@ function SettingsContent() {
                 <p>
                   Mhel Handrian is a <strong>Research & Development Systems Engineer</strong> with over a decade of experience in industrial applications.
                   He has spearheaded software engineering projects for international firms like <em>CITCO International</em> and <em>Alliant Insurance Services</em>,
-                  specializing in AI integration (OCR/NLU) and high-performance web stacks.
+                  specializing in AI integration (OCR/NLP) and high-performance web stacks.
                 </p>
                 <p>
                   As an alumnus of <strong>STI College</strong> and a seasoned professional in both local and overseas tech markets,
