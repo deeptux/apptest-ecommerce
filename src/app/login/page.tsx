@@ -26,8 +26,8 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
       <div className="w-full max-w-sm rounded-3xl border border-slate-800 bg-black p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-black text-white italic">RAMEN HEAVEN</h1>
-          <p className="text-xs text-rose-500 font-bold uppercase tracking-widest mt-2">Protected Terminal</p>
+          <h1 className="text-2xl font-black text-white italic">PROJECT CODENAME:</h1>
+          <p className="text-xs text-rose-500 font-bold uppercase tracking-widest mt-2">RAMEN HEAVEN</p>
         </div>
         
         <form onSubmit={handleLogin} className="space-y-4">
