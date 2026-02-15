@@ -1,92 +1,74 @@
-// @/store/cart-store.ts
 import { create } from "zustand";
 
-export type UOM = "PACK" | "KG" | "BAG";
-
-export interface CartItem {
+export type CartItem = {
   id: string;
   name: string;
-  sku: string;
-  imageUrl: string;
-  pricePerBase: number;
-  uom: UOM;
   quantity: number;
-}
+  pricePerBase: number;
+  imageUrl?: string;
+};
 
-interface CartState {
+type CartState = {
   items: CartItem[];
-  taxRate: number;
-  subtotal: number; // Changed to state
-  tax: number;      // Changed to state
-  total: number;    // Changed to state
-  addItem: (payload: any) => void;
-  updateItemQuantity: (id: string, quantity: number) => void;
+  isCartOpen: boolean;
+  addItem: (item: CartItem) => void;
   removeItem: (id: string) => void;
+  updateItemQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
-}
-
-function uomFactor(uom: UOM) {
-  switch (uom) {
-    case "KG": return 1.2;
-    case "BAG": return 8;
-    default: return 1;
-  }
-}
-
-// Helper to calculate totals
-const calculateTotals = (items: CartItem[], taxRate: number) => {
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.pricePerBase * uomFactor(item.uom) * (item.quantity || 0),
-    0
-  );
-  const tax = subtotal * taxRate;
-  const total = subtotal + tax;
-  return { subtotal, tax, total };
+  setIsCartOpen: (open: boolean) => void;
+  getSubtotal: () => number;
+  getTax: () => number;
+  getTotal: () => number;
 };
 
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
-  taxRate: 0.12,
-  subtotal: 0,
-  tax: 0,
-  total: 0,
+  isCartOpen: false,
 
-  addItem: (payload) =>
-    set((state) => {
-      const existing = state.items.find((i) => i.id === payload.id);
-      let newItems;
+  addItem: (item: CartItem) => {
+    set((state: CartState) => {
+      const existing = state.items.find((i: CartItem) => i.id === item.id);
       if (existing) {
-        newItems = state.items.map((i) =>
-          i.id === payload.id ? { ...i, quantity: i.quantity + 1 } : i
-        );
-      } else {
-        newItems = [...state.items, { ...payload, quantity: 1 }];
+        return {
+          items: state.items.map((i: CartItem) =>
+            i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
+          ),
+        };
       }
-      return { 
-        items: newItems, 
-        ...calculateTotals(newItems, state.taxRate) 
-      };
-    }),
+      return { items: [...state.items, item] };
+    });
+  },
 
-  updateItemQuantity: (id, quantity) =>
-    set((state) => {
-      const newItems = state.items.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
-      );
-      return { 
-        items: newItems, 
-        ...calculateTotals(newItems, state.taxRate) 
-      };
-    }),
+  removeItem: (id: string) => {
+    set((state: CartState) => ({ items: state.items.filter((i: CartItem) => i.id !== id) }));
+  },
 
-  removeItem: (id) =>
-    set((state) => {
-      const newItems = state.items.filter((item) => item.id !== id);
-      return { 
-        items: newItems, 
-        ...calculateTotals(newItems, state.taxRate) 
-      };
-    }),
+  updateItemQuantity: (id: string, quantity: number) => {
+    set((state: CartState) => ({
+      items: state.items
+        .map((i: CartItem) => (i.id === id ? { ...i, quantity: Math.max(0, quantity) } : i))
+        .filter((i: CartItem) => i.quantity > 0),
+    }));
+  },
 
-  clearCart: () => set({ items: [], subtotal: 0, tax: 0, total: 0 }),
+  clearCart: () => {
+    set(() => ({ items: [] }));
+  },
+
+  setIsCartOpen: (open: boolean) => {
+    console.log("[cart-store] setIsCartOpen ->", open);
+    set(() => ({ isCartOpen: open }));
+  },
+
+  getSubtotal: () => {
+    return get().items.reduce((sum: number, it: CartItem) => sum + it.pricePerBase * it.quantity, 0);
+  },
+
+  getTax: () => {
+    return +(get().getSubtotal() * 0.12 || 0);
+  },
+
+  getTotal: () => {
+    return get().getSubtotal() + get().getTax();
+  },
 }));

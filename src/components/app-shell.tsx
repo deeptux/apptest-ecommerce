@@ -12,7 +12,7 @@ import {
   Menu,
   X
 } from "lucide-react";
-import { LiveCartBadge } from "@/components/live-cart-badge";
+import LiveCartBadge from "@/components/live-cart-badge";
 import { useCartStore } from "@/store/cart-store"; // Added to check cart count
 import Image from 'next/image';
 

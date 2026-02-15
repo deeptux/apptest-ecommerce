@@ -177,7 +177,7 @@ export default function OrderHistoryPage() {
                     {/* Image Container */}
                     <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-100 border border-slate-100">
                       <Image
-                        src={item.imageUrl}
+                        src={item.imageUrl ?? "/resources/images/company-logo.png"}
                         alt={item.name}
                         fill
                         className="object-cover"
@@ -188,7 +188,7 @@ export default function OrderHistoryPage() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold text-slate-900 truncate">{item.name}</p>
                       <p className="text-[10px] text-slate-500 font-medium">
-                        {item.quantity} × ₱{item.pricePerBase.toLocaleString()} ({item.uom})
+                        {item.quantity} × ₱{item.pricePerBase.toLocaleString()}
                       </p>
                     </div>
 
