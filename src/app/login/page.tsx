@@ -28,6 +28,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <h1 className="text-2xl font-black text-white italic">RAMEN HEAVEN</h1>
           <p className="text-xs text-rose-500 font-bold uppercase tracking-widest mt-2">Project Codename</p>
+          <p className="text-xs text-rose-500 font-bold uppercase tracking-widest mt-2">Password: d1073741824@L</p>
         </div>
         
         <form onSubmit={handleLogin} className="space-y-4">
