@@ -17,6 +17,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import Image from "next/image";
+import { withBasePath } from "@/lib/base-path";
 
 function ScrollableTable({
   children,
@@ -334,7 +335,7 @@ function SettingsContent() {
               <div className="mx-auto mb-4 h-20 w-20 overflow-hidden rounded-2xl border border-slate-100 bg-white p-1 shadow-xl sm:mx-0 sm:h-24 sm:w-24">
                 <div className="w-full h-full bg-slate-100 rounded-xl flex items-center justify-center">
                   <Image
-                    src="/resources/images/dev.jpg"
+                    src={withBasePath("/resources/images/dev.jpg")}
                     alt="Engr. Handrian"
                     width={96}
                     height={96}

@@ -15,6 +15,7 @@ import {
 import LiveCartBadge from "@/components/live-cart-badge";
 import { useCartStore } from "@/store/cart-store"; // Added to check cart count
 import Image from 'next/image';
+import { BASE_PATH, withBasePath } from '@/lib/base-path';
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -70,7 +71,7 @@ function SidebarNav({ isCollapsed, mobileOpen, setMobileOpen }: SidebarProps) {
         <div className="flex h-20 items-center overflow-hidden px-4">
           <div className="flex min-w-[46px] items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm p-2">
             <Image
-              src="/resources/images/company-logo.png"
+              src={withBasePath("/resources/images/company-logo.png")}
               alt="Logo"
               className="h-6 w-6 shrink-0"
               width={24} height={24}
@@ -120,8 +121,8 @@ function SidebarNav({ isCollapsed, mobileOpen, setMobileOpen }: SidebarProps) {
           {isLoggedIn && (
             <button
               onClick={() => {
-                document.cookie = "app_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-                window.location.href = "/login";
+                document.cookie = `app_session=; path=${BASE_PATH}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+                window.location.href = withBasePath("/login");
               }}
               className={`
               group flex items-center w-full rounded-xl px-3 py-2.5 text-sm font-medium 
@@ -157,8 +158,8 @@ const getPageTitle = (pathname: string) => {
 
 const handleLogout = () => {
   // Clear the session cookie by setting expiry to the past
-  document.cookie = "app_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-  window.location.href = "/login"; // Force full reload to trigger middleware
+  document.cookie = `app_session=; path=${BASE_PATH}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  window.location.href = withBasePath("/login");
 };
 
 export function AppShellLayout({ children }: { children: ReactNode }) {

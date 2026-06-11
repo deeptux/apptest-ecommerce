@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { BASE_PATH } from '@/lib/base-path';
 
 export default function LoginPage() {
   const [password, setPassword] = useState('');
@@ -14,7 +15,7 @@ export default function LoginPage() {
     // In a real app, you'd call an API route to set an HttpOnly cookie.
     // For a simple demo, we set it via document.cookie.
     if (password === "d1073741824@L") { // Match the middleware password
-      document.cookie = `app_session=${password}; path=/; max-age=86400; SameSite=Strict`;
+      document.cookie = `app_session=${password}; path=${BASE_PATH}; max-age=86400; SameSite=Strict`;
       router.push('/dashboard');
       router.refresh();
     } else {
