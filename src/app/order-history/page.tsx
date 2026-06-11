@@ -5,6 +5,7 @@ import Image from "next/image"; // Added for product images
 import { useOrderStore, Order } from "@/store/order-store";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/table";
 import { X, Package, Calendar, Check, RotateCcw, Ban } from "lucide-react"; // Added Icons
+import { withBasePath } from "@/lib/base-path";
 
 function StatusBadge({ status }: { status: string }) {
   const variants: Record<string, string> = {
@@ -177,7 +178,7 @@ export default function OrderHistoryPage() {
                     {/* Image Container */}
                     <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-100 border border-slate-100">
                       <Image
-                        src={item.imageUrl ?? "/resources/images/company-logo.png"}
+                        src={withBasePath(item.imageUrl ?? "/resources/images/company-logo.png")}
                         alt={item.name}
                         fill
                         className="object-cover"

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCartStore, type CartItem } from "@/store/cart-store";
+import { withBasePath } from "@/lib/base-path";
 
 const MOCK_PRODUCTS = [
   {
@@ -159,7 +160,8 @@ export default function PlaceOrderPage() {
         <h1 className="text-lg font-bold mb-4">Place Order</h1>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {products.map((p) => {
-            const imgSrc = p.imageUrl ?? p.image;
+            const rawImgSrc = p.imageUrl ?? p.image;
+            const imgSrc = rawImgSrc ? withBasePath(rawImgSrc) : undefined;
             const key = `${p.id ?? p.name}`;
 
             return (
@@ -259,7 +261,7 @@ export default function PlaceOrderPage() {
                   <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-100">
                     {item.imageUrl ? (
                       <Image
-                        src={item.imageUrl}
+                        src={withBasePath(item.imageUrl)}
                         alt={item.name}
                         width={48}
                         height={48}
